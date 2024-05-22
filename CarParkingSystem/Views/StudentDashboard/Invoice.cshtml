@@ -1,0 +1,210 @@
+﻿@model CarParkingSystem.ViewModel.InvoiceViewModel
+@{
+    ViewData["Title"] = "Invoice";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="../../">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="~/Webapp/assets/media/images/logo.jpg" type="image/x-icon">
+    <!-- custom styling -->
+    <link rel="stylesheet" href="~/Webapp/assets/css/style.css" />
+    <!-- bootstrap  -->
+    <link rel="stylesheet" href="~/Webapp/assets/css/bootstrap.min.css" />
+    <!-- icons -->
+    <link rel="stylesheet" href="~/Webapp/assets/icons/fontawesome/css/all.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+
+    <!-- dropzone -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" rel="stylesheet">
+
+    <title>Car Parking System</title>
+</head>
+
+<body>
+    <style>
+        .invoice {
+            background-color: white;
+            border: 1px solid black;
+            width: 800px;
+            padding: 50px;
+        }
+
+        .invoice-heading {
+            text-align: end;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #7e8bc9;
+        }
+
+        .invoice-table {
+            width: 100%;
+            font-size: 13px;
+        }
+
+            .invoice-table th,
+            .invoice-table td {
+                border: 1px solid black;
+                padding: 2px 8px;
+            }
+
+            .invoice-table th {
+                background-color: #d2d9eb;
+                text-transform: uppercase;
+            }
+
+        .billing-table {
+            width: 220px;
+        }
+
+            .billing-table td {
+                border: none !important;
+            }
+
+        .table-p {
+            margin: 0;
+            color: #ba0202;
+            font-weight: 600;
+        }
+
+        .main-table td {
+            vertical-align: baseline;
+        }
+
+        .main-table-p {
+            font-size: 13px;
+            font-weight: 600;
+            color: black;
+        }
+
+            .main-table-p span {
+                color: #ba0202;
+            }
+
+        .big-table {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .thank-u-p {
+            margin: 0;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            font-style: italic;
+        }
+    </style>
+    <button id="printButton" style="float: right;" class="btn btn-secondary btn-sm">Download  Pdf</button>
+    <section id="sectionToPrint">
+        <div class="content">
+            <div class="invoice">
+                <h1 class="invoice-heading mb-3">Invoice</h1>
+                <div class="row justify-content-end mb-3">
+                    <div class="col-md-6">
+                        <table class="invoice-table text-center">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%;">Invoice #</th>
+                                    <th style="width: 50%;">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.QrCode</td>
+                                    <td>@System.DateTime.Now.ToString("MM/dd/yyyy")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <table class="invoice-table billing-table">
+                        <thead>
+                            <tr>
+                                <th>Bill To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p class="table-p">@Model.FirstName</p>
+                                    <p class="table-p">@Model.LastName</p>
+                                    <p class="table-p">@Model.Email</p>
+                                    <p class="table-p">@Model.Phone</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="invoice-table main-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 75%;">Description</th>
+                                <th style="width: 25%; text-align: end;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="height: 300px; padding: 50px 30px;">
+                                    <p class="main-table-p">Parking Permit for vehicle: <span>@Model.RegNumber</span></p>
+                                    @if (Model.day != null)
+                                    {
+                                        <p class="main-table-p"><span>{OR}</span></p>
+                                        <p class="main-table-p">
+
+                                            <span> @Model.day</span>   Day Reservation for parking spot <span>@Model.BayId</span> R5 per
+                                            day
+                                        </p>
+                                    }
+
+                                </td>
+                                <td style="height: 300px; padding: 50px 30px;">
+                                    <p class="main-table-p">@Model.PermitAmount</p>
+                                    <p class="main-table-p"> -</p>
+                                    <p class="main-table-p">@Model.ParkingAmount</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="invoice-table big-table">
+                        <tbody>
+                            <tr>
+                                <td style="width: 60%;"></td>
+                                <td style="width: 40%;">Total:R @Model.TotalAmunt</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="thank-u-p">Thank You For Your Business</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <script src="~/Webapp/assets/icons/fontawesome/js/all.min.js"></script>
+    <script src="~/Webapp/assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function printSectionAsPDF() {
+            const element = document.getElementById("sectionToPrint");
+            html2pdf().from(element).save("Invoice.pdf");
+        }
+        document.getElementById("printButton").addEventListener("click", printSectionAsPDF);
+    </script>
+  
+
+
+

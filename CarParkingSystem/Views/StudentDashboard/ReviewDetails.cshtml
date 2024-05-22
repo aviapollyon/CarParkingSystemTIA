@@ -1,0 +1,41 @@
+﻿@model CarParkingSystem.Models.Feedback
+@{
+    ViewData["Title"] = "Review Details";
+}
+
+<div class="">
+    <h6 class="rana-form-h6 mb-4 mt-5">Your Feedback</h6>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>Date of Feedback:</span>
+            <span>@Model.RatingDate.ToString("MM/dd/yyyy")</span>
+        </p>
+        <div class="row">
+            <div class="col-12">
+                <p class="driver-info-p">
+                    <span>Rating:</span>
+                    <span>
+                        @for (int i = 0; i < Model.RatingNumber; i++)
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="driver-info-p">
+                    <span>Review:</span>
+                    <span style="margin-left:211px">@Model.UserMessage</span>
+                </p>
+            </div>
+
+        </div>
+        
+        <p class="driver-info-p">
+            <span>Admin Reply:</span>
+            <span style="margin-left:11px">@Model.AdminReplay</span>
+        </p>
+    </div>
+</div>

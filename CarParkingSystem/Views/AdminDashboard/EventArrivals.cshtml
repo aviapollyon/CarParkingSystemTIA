@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CarParkingSystem.Models.EventCheckIn>
+@using System
+@using System.Globalization
+@{
+    ViewData["Title"] = "Event Arrivals";
+}
+
+<div class="admin-other-form">
+    
+    <div class="table-card">
+        <h6 class="table-heading text-center">@ViewBag.EventName</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Register Plate</th>
+                    <th>Entry Time</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.RegPlate</td>
+                            <td>@DateTime.Parse(item.CheckInTime).ToString("HH:mm tt")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

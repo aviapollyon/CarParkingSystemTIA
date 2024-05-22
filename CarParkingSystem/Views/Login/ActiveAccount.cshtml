@@ -1,0 +1,47 @@
+﻿@model CarParkingSystem.DTO.ActiveDTO
+@{
+    ViewData["Title"] = "Active Account";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+}
+<style>
+    .login-form-up {
+        background-color: white !important;
+        padding: 100px;
+        width: 743px;
+    }
+</style>
+<div class="login-form-up">
+    <form asp-action="ActiveAccount" method="post">
+        <div class="mb-3">
+            <label class="rana-form-label">Organization Number:</label>
+            <input type="number" class="rana-form-input" asp-for="OrgNumber" placeholder="Insert 8-digit organization number">
+            <span asp-validation-for="OrgNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Id-Number:</label>
+            <input type="number"  asp-for="IdNumber" class="rana-form-input" placeholder="Insert your 13-digit ID-number">
+            <span asp-validation-for="IdNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Desired Password:</label>
+            <input type="password" asp-for="Password" class="rana-form-input" placeholder="Insert your password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Confirm Password:</label>
+            <input type="password" asp-for="ConfirmPassword" class="rana-form-input" placeholder="Insert your password again">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="rana-form-btn">Confirm Activation</button>
+        </div>
+    </form>
+    <div class="text-center">
+        <a href="" class="rana-form-a">Back To Login</a>
+    </div>
+
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,122 @@
+﻿@model CarParkingSystem.ViewModel.EventHistoryViewModel
+@{
+    ViewData["Title"] = "Started Student Event";
+}
+
+<style>
+    .admin-other-forms {
+        margin-left: 100px;
+        margin-bottom:50px
+    }
+</style>
+<div style="margin-top:20px">
+    <h4 class="text-center">Booking </h4>
+</div>
+<div class="admin-other-forms mt-5">
+    <dl class="row">
+        <dt class="col-sm-7">
+            <h3>Event Name:</h3>
+        </dt>
+        <dd class="col-sm-5">
+            <h3> @Html.DisplayFor(model => model.EventName)</h3>
+
+        </dd>
+        <dt class="col-sm-7">
+            First Name of host:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-7">
+            Last Name of host:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-7">
+            Email of host:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-7">
+            Phone of Host:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-7">
+            Event Start Date:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+        <dt class="col-sm-7">
+            Event End Date:
+        </dt>
+        <dd class="col-sm-5">
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+        <dt class="col-sm-7">
+            <h3>Using Parking section:</h3>
+        </dt>
+        <dd class="col-sm-5">
+            <h3>@Html.DisplayFor(model => model.ParkingSection)</h3>
+
+        </dd>
+    </dl>
+    <hr class="mt-2" />
+    <form id="eventCheckInForm">
+        <div class="row" style="margin-top:40px" >
+
+            <input type="hidden" id="eventId" name="eventId" value="@Model.EventId" />
+            <div class="col-md-6">
+                <label class="rana-form-label">Vehicle Registration Plate.</label>
+                <input type="text" id="registrationPlate" class="rana-form-input" placeholder="Insert Vehicle plate here" />
+            </div>
+            <div class="col-md-6" >
+                <button type="button" id="checkInButton" class="rana-form-btn w-75" style="margin-top:30px">Check-In Vehicle</button>
+            </div>
+
+
+        </div>
+    </form>
+</div >
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#checkInButton').click(function () {
+                var eventId = $('#eventId').val();
+                var registrationPlate = $('#registrationPlate').val();
+                if (!registrationPlate) {
+                    alert("Please insert vehicle plate.");
+                    return;
+                }
+                var data = {
+                    EventId: eventId,
+                    RegPlate: registrationPlate
+                };
+                $.ajax({
+                    url: '/GuardDashboard/EventBookingCheckIn',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Done!", response.message, "success").then(() => {
+                                window.location.href = '../GuardDashboard/StudentEvent';
+                            });
+                        } else {
+                            swal("Error deleting!", response.message, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+

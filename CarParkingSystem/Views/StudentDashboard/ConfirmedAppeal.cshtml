@@ -1,0 +1,77 @@
+﻿@model CarParkingSystem.Models.StudentViolation
+@{
+    ViewData["Title"] = "Confirmed Appeal";
+}
+<style>
+    .center {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .overlay {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
+    .rana-form-labels {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: -30px;
+    }
+</style>
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <div style="margin-left:100px">
+        <dl class="row">
+            <dt class="col-sm-4">
+                Number:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                Serverity:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Severity)
+            </dd>
+            <dt class="col-sm-4">
+                Amount to be Paid:
+            </dt>
+            @if (Model.ServerityFee > 0)
+            {
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ServerityFee)
+                </dd>
+            }
+            else
+            {
+                <dd class="col-sm-8">
+                    <p class="rana-form-label">Inapplicable</p>
+                </dd>
+            }
+            <dt class="col-sm-4">
+                Issued Date:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IssueDate)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="center">
+        <img src="~/Webapp/assets/media/images/Appeal.png" style="width:200px" alt="Appeal">
+    </div>
+    <div class="overlay">
+        <p class="rana-form-labels">Your Violation Appeal has been Submitted!</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; " class=" mt-5">
+        <a style="text-decoration: none" asp-action="StudentViolation" class="tbl-btn">Go Back</a>
+    </div>
+</div>
+

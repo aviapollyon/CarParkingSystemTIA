@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Parking Payment Confirmation";
+}
+
+<div class="">
+    <h6 class="rana-form-h6 mb-5">Payment</h6>
+    <h6 class="rana-form-h6 mb-5 text-start ps-5">Payment Total:R @ViewBag.Total</h6>
+</div>
+<div class="d-flex">
+    <h6 class="rana-form-h6 mb-5 text-start ps-5">Reserved Parking Bay : @ViewBag.BayID</h6> 
+</div>
+<div class="mt-5" style="display: flex; justify-content: center;">
+    <a class="tbl-btn" asp-action="Invoice" asp-route-QRCodeNumber="@ViewBag.InvoiceNumber" style="text-decoration:none">Download Invoice</a>
+
+</div>
+<div class="mt-2" style="display: flex; justify-content: center; margin-bottom: 80px;">
+    <a class="rana-form-a">Email Invoice?</a>
+</div>
+

@@ -1,0 +1,110 @@
+﻿@model CarParkingSystem.Models.UserLicense
+@{
+    ViewData["Title"] = "Edit License";
+}
+
+<style>
+    .add-bay-form2 {
+        margin: 120px auto;
+    }
+</style>
+<div class="add-bay-form2">
+    <form asp-action="EditLicense" onsubmit="return validateLicenseNumber()">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="rana-form-label">Select Id Number:</label>
+                    <select id="idNumberSelect" class="rana-form-input" asp-items="ViewBag.User" asp-for="idNumber">
+                        <option selected disabled>Please select User id</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="rana-form-label">First Name:</label>
+                    <input type="text" asp-for="DfirstName" id="DfirstName" class="rana-form-input" placeholder="Insert First Name" readonly>
+                    <span asp-validation-for="DfirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="rana-form-label">Last Name:</label>
+                    <input type="text" asp-for="DlastName" id="DlastName" class="rana-form-input" placeholder="Insert Last Name" readonly>
+                    <span asp-validation-for="DlastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 80px;">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">License Status</label>
+                    <select class="rana-form-input" asp-for="isValid">
+                        <option value="true">Valid</option>
+                        <option value="false">Not Valid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">License Number:</label>
+                    <input type="text" asp-for="licenseNumber" id="licenseNumber" class="rana-form-input" placeholder="Insert License Number">
+                    <span asp-validation-for="licenseNumber" class="text-danger"></span>
+                    <span id="licenseNumberError" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="rana-form-btn w-75">Update User License</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('#idNumberSelect').change(function () {
+                var selectedIdNumber = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/License/GetName',
+                    data: { idNumber: selectedIdNumber },
+                    success: function (response) {
+                        if (response && response.firstName && response.lastName) {
+                            $('#DfirstName').val(response.firstName);
+                            $('#DlastName').val(response.lastName);
+                        } else {
+                            console.error("First name or last name not found in response.");
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error("Error posting id number:", textStatus);
+                    }
+                });
+            });
+        });
+
+        function validateLicenseNumber() {
+            var licenseNumberInput = document.getElementById("licenseNumber");
+            var licenseNumberValue = licenseNumberInput.value.trim();
+            var licenseNumberRegex = /^[0-9a-zA-Z]{12}$/;
+
+            if (!licenseNumberRegex.test(licenseNumberValue)) {
+                document.getElementById("licenseNumberError").innerText = "License number must be exactly 12 characters and contain only numbers and letters.";
+                return false;
+            }
+            document.getElementById("licenseNumberError").innerText = "";
+            return true;
+        }
+
+        function removeLicenseNumberError() {
+            document.getElementById("licenseNumberError").innerText = "";
+        }
+
+    </script>
+}
+

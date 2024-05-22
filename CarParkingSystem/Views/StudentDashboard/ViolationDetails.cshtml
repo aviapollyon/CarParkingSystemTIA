@@ -1,0 +1,160 @@
+﻿@model CarParkingSystem.ViewModel.StudentViolationViewModel
+@{
+    ViewData["Title"] = "Violation Details";
+}
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <dl class="row">
+        <dt class="col-sm-4">
+            Number:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentViolation.Id)
+        </dd>
+        <dt class="col-sm-4">
+            Serverity:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentViolation.Severity)
+        </dd>
+        <dt class="col-sm-4">
+            Amount to be Paid:
+        </dt>
+        @if (Model.StudentViolation.ServerityFee > 0)
+        {
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.StudentViolation.ServerityFee)
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-8">
+                <p class="rana-form-label">Inapplicable</p>
+            </dd>
+        }
+
+        <dt class="col-sm-4">
+            Issued Date:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentViolation.IssueDate)
+        </dd>
+        <dt class="col-sm-4">
+            Offense:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentViolation.OffenseSelect)
+        </dd>
+        <dt class="col-sm-4">
+            Additional Information:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentViolation.AdditionInformation)
+        </dd>
+
+    </dl>
+    <hr class="mt-5" />
+
+    <dl class="row">
+        <dt class="col-sm-4">
+            Photo Attachments
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var item in Model.ViolationImages)
+            {
+                <img src="~/ViolationImage/@item.ViolationImage" style="height:200px; width:200px; margin-right: 10px; margin-bottom: 10px;" />
+            }
+        </dd>
+    </dl>
+
+    <div style="display: flex; justify-content: space-around;" class="mt-5">
+        <a style="text-decoration: none;" asp-action="StudentViolation" class="tbl-btn">Go Back</a>
+
+        @if (Model.violationAppeals != null)
+        {
+            @if (Model.violationAppeals.ViolationId == Model.StudentViolation.Id)
+            {
+                if (Model.violationAppeals.Status == "Unconfirmed")
+                {
+                    <p class="rana-form-label">Already Submited Appeal</p>
+
+                }
+                else if (Model.violationAppeals.Status == "Reject")
+                {
+                    <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationAppeal" asp-route-id="@Model.StudentViolation.Id">Appeal</a>
+
+
+                }
+                else 
+                {
+                    if (Model.StudentViolation.ServerityFee > 0)
+                    {
+                        <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationAppeal" asp-route-id="@Model.StudentViolation.Id">Appeal</a>
+
+                    }
+                    else
+                    {
+                        <p class="rana-form-label">Inapplicable</p>
+                    }
+
+
+                }
+
+            }
+            else
+            {
+                <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationAppeal" asp-route-id="@Model.StudentViolation.Id">Appeal</a>
+
+            }
+        }
+        else
+        {
+            <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationAppeal" asp-route-id="@Model.StudentViolation.Id">Appeal</a>
+
+        }
+
+
+        @if (Model.StudentViolation.ServerityFee > 0)
+        {
+            @if (Model.violationAppeals != null)
+            {
+                @if (Model.violationAppeals.ViolationId == Model.StudentViolation.Id)
+                {
+                    if (Model.violationAppeals.Status == "Unconfirmed")
+                    {
+                        <p class="rana-form-label">Already Submited Appeal</p>
+
+                    }
+                    else if (Model.violationAppeals.Status == "Reject")
+                    {
+                        <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationPay" asp-route-id="@Model.StudentViolation.Id">Pay</a>
+
+                    }
+                    else if (Model.violationAppeals.Status == "SeverePayment")
+                    {
+                        <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationPay" asp-route-id="@Model.StudentViolation.Id">Pay</a>
+
+                    }
+                }
+                else
+                {
+                    <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationPay" asp-route-id="@Model.StudentViolation.Id">Pay</a>
+
+                }
+            }
+            else
+            {
+                <a style="text-decoration: none;" class="tbl-btn" asp-action="ViolationPay" asp-route-id="@Model.StudentViolation.Id">Pay</a>
+
+            }
+
+
+        }
+
+    </div>
+
+
+</div>

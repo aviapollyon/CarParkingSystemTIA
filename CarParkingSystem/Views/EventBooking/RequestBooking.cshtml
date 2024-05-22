@@ -1,0 +1,127 @@
+﻿@model CarParkingSystem.Models.StudentEvent
+@{
+    ViewData["Title"] = "Request Booking";
+}
+<style>
+    .add-bay-form2 {
+        margin: 120px auto;
+    }
+</style>
+<div class="add-bay-form2">
+    <form asp-action="RequestBooking" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event Name:</label>
+                    <input type="text" asp-for="EventName" class="rana-form-input" placeholder="Insert Event Name">
+                    <span asp-validation-for="EventName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event Purpose:</label>
+                    <select class="rana-form-input" asp-for="Purpose">
+                        <option selected disabled>Select Event Purpose</option>
+                        <option value="Education">Education</option>
+                        <option value="Recreational">Recreational</option>
+                        <option value="Conference">Conference</option>
+                        <option value="NetWorking Event">NetWorking Event</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Parking Section:</label>
+                    <select class="rana-form-input" asp-for="ParkingBayId" id="ParkingSection">
+                    </select>
+
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Number of Vechicle arrive in parking spots:</label>
+                    <input type="number" asp-for="VehicleArrive" class="rana-form-input" placeholder="Insert Vechicle arrive">
+                    <span asp-validation-for="VehicleArrive" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event Start Date:</label>
+                    <input type="date" asp-for="EventStartDate" class="rana-form-input">
+                    <span asp-validation-for="EventStartDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event Start Time:</label>
+                    <input type="time" asp-for="StartTime" class="rana-form-input">
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event End Date:</label>
+                    <input type="date" asp-for="EventEndDate" class="rana-form-input">
+                    <span asp-validation-for="EventEndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label class="rana-form-label">Event End Time:</label>
+                    <input type="time" asp-for="EndTime" class="rana-form-input">
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="rana-form-label">Event Description:</label>
+                <textarea class="form-control" asp-for="EventDescription" rows="6" placeholder="Event Description">
+
+                </textarea>
+                <span asp-validation-for="EventDescription" class="text-danger"></span>
+            </div>
+        </div>
+        <div id="errorMessage" class="text-danger"></div>
+
+        <div class="text-center mt-5">
+            <button type="submit" class="rana-form-btn w-75">Request Submit</button>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/EventBooking/GetSpot',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response)
+                    $.each(response, function (index, item) {
+                        $('#ParkingSection').append($('<option>', {
+                            value: item.bayId,
+                            text: item.baySection
+                        }));
+                    });
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 400) {
+                        $('.rana-form-btn').hide();
+                        $('#errorMessage').text('Any parking section is not available.');
+                    }
+                }
+            });
+        });
+
+    </script>
+}

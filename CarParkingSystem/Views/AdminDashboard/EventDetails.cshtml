@@ -1,0 +1,64 @@
+﻿@model CarParkingSystem.Models.StudentEvent
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<style>
+    .admin-other-forms {
+        margin-left: 400px;
+      
+    }
+</style>
+<div style="margin-top:20px">
+    <h4 class="text-center">Booking </h4>
+</div>
+<div class="admin-other-forms mt-5">
+    <dl class="row">
+        <dt class="col-sm-4">
+            Event Name:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+        <dt class="col-sm-4">
+            Amount to Paid:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.AmountPaid)
+        </dd>
+        <dt class="col-sm-4">
+            From:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventStartDate)
+        </dd>
+        <dt class="col-sm-4">
+            To:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventEndDate)
+        </dd>
+        <dt class="col-sm-4">
+            Parking Section Booked:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ParkingBayId)
+        </dd>
+        <dt class="col-sm-4">
+            Vehicle Arrivals Expected:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.VehicleArrive)
+        </dd>
+        <dt class="col-sm-4">
+            Vehicle Description:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventDescription)
+        </dd>
+
+    </dl>
+
+
+</div>
+

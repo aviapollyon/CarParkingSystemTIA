@@ -1,0 +1,120 @@
+﻿@model CarParkingSystem.DTO.AddUserDTO
+@{
+    ViewData["Title"] = "Add New User";
+}
+
+<style>
+    .add-bay-form2 {
+        margin: 120px auto;
+    }
+</style>
+<div class="add-bay-form2">
+    <form asp-action="CreateUser" onsubmit="return validateIdNumber()">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">First Name:</label>
+                    <input type="text" asp-for="FirstName" class="rana-form-input" placeholder="Insert First Name">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Last Name:</label>
+                    <input type="text" asp-for="LastName" class="rana-form-input" placeholder="Insert Last Name">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Phone Number:</label>
+                    <input type="text" asp-for="Phone" class="rana-form-input" placeholder="Insert Phone number">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Select Role:</label>
+                    <select class="rana-form-input" asp-for="UserRole">
+                        <option selected disabled>Please Select Role</option>
+                        <option value="Student">Student</option>
+                        <option value="Guard">Guard</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Id Number(13 digit number):</label>
+                    <input type="text" asp-for="idNumber" id="idNumber" class="rana-form-input" placeholder="Insert Id number">
+                    <span id="idNumberError" class="text-danger"></span> 
+                    
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Org Number(8 digit number):</label>
+                    <input type="number" asp-for="orgNum" id="orgnum" class="rana-form-input" placeholder="Insert Phone number">
+                    <span id="orgNumError" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Password: </label>
+                    <input type="password" asp-for="Password" class="rana-form-input" placeholder="Insert password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Confirm Password:</label>
+                    <input type="password" asp-for="ConfirmPassword" class="rana-form-input" placeholder="Insert confirm password">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 80px;">
+            <div class="col-md-12">
+                <label class="rana-form-label">Email:</label>
+                <input type="email" asp-for="Email" id="userID" class="rana-form-input" placeholder="Insert Email eg: @@Org4life.ac.za" >
+                <span id="emailError" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="rana-form-btn w-75">Add User</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    function validateIdNumber() {
+        var idNumberInput = document.getElementById("idNumber");
+        var idNumberValue = idNumberInput.value.trim();
+
+        var orgNumInput = document.getElementById("orgnum");
+        var orgNumberValue = orgNumInput.value.trim();
+        if (idNumberValue.length !== 13 || isNaN(idNumberValue)) {
+            document.getElementById("idNumberError").innerText = "Id Number must be exactly 13 digits.";
+            return false;
+        }
+        if (orgNumberValue.length !== 8 || isNaN(orgNumberValue))
+        {
+            document.getElementById("orgNumError").innerText = "OrgNumber must be exactly 8 digits ";
+            return false;
+        }
+        document.getElementById("idNumberError").innerText = "";
+
+        return true;
+    }
+
+</script>
+
+}

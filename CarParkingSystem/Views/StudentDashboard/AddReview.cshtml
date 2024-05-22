@@ -1,0 +1,45 @@
+﻿@model CarParkingSystem.Models.Feedback
+@{
+    ViewData["Title"] = "Add Review";
+}
+
+<div class="">
+    <form asp-action="AddReview" method="post">
+        <div class="mb-4 mt-5 text-start">
+            <p class="rana-form-p">Rate Your Experience</p>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Star Rating:</label><br>
+            <select id="starRating" asp-for="RatingNumber" class="rana-form-input" style="width: 100px;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="mb-4 text-start">
+            <p class="rana-form-p" id="reviewMessage">Not satisfied</p>
+        </div>
+        <div class="">
+            <label class="rana-form-label">Review:</label><br>
+            <textarea asp-for="UserMessage" type="text" class="rana-form-input" style="height: 200px;" required>
+     </textarea>
+        </div>
+        <div style="display:flex; justify-content:center; margin-top:80px ">
+            <button class="tbl-btn" type="submit">Record Review</button>
+        </div>
+    </form>
+   
+</div>
+@section Scripts{
+    <script>
+    var selectElement = document.getElementById("starRating");
+    selectElement.addEventListener("change", function() {
+        var selectedValue = parseInt(selectElement.value);
+        var reviewMessages = ["Not satisfied", "Satisfied", "Good", "Very good", "Excellent"];
+        var reviewMessage = reviewMessages[selectedValue - 1];
+        document.getElementById("reviewMessage").innerText = reviewMessage;
+    });
+    </script>
+}

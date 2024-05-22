@@ -1,0 +1,72 @@
+﻿@model CarParkingSystem.Models.StudentViolation
+@{
+    ViewData["Title"] = "Confirmed Pay";
+}
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <div style="margin-left:100px">
+        <dl class="row">
+            <dt class="col-sm-4">
+                Number:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                Serverity:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Severity)
+            </dd>
+            <dt class="col-sm-4">
+                Amount to be Paid:
+            </dt>
+            <dd class="col-sm-8">
+                ZAR @Model.ServerityFee
+            </dd>
+            <dt class="col-sm-4">
+                Issued Date:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IssueDate)
+            </dd>
+
+        </dl>
+    </div>
+    <style>
+        .center {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        .rana-form-labels {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: -30px;
+        }
+    </style>
+    <div class="center">
+        <img src="~/Webapp/assets/media/images/Approve.png" style="width:200px" alt="Deny">
+
+    </div>
+    <div class="overlay">
+        <p class="rana-form-labels">Your Violation has been Settled!</p>
+    </div>
+    <div class="text-center" style="margin-top:40px">
+        <a class="tbl-btn" asp-action="DownloadViolationInvoice" asp-route-OrgNumber="@Model.OrgNumber" style="text-decoration:none">Download Invoice</a>
+    </div>
+    <div style="display: flex; justify-content: space-between; " class=" mt-5">
+        <a style="text-decoration: none" asp-action="StudentViolation" class="tbl-btn">Go Back</a>
+    </div>
+</div>
+

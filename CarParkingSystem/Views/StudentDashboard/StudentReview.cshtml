@@ -1,0 +1,131 @@
+﻿@model IEnumerable<CarParkingSystem.Models.Feedback>
+@{
+    ViewData["Title"] = "Student Review";
+}
+
+<div class="admin-other-form">
+    <div class="mb-5 text-center">
+        <a asp-action="AddReview" style="text-decoration:none" class="tbl-btn"> Add Feedback</a>
+    </div>
+    <div class="star-visualization">
+        <div class="star-label">
+            <h1 class="start-heading">@ViewBag.AverageRating</h1>
+            <div class="star-label-bar">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <i class="fas fa-star @(i < Math.Floor((double)ViewBag.AverageRating) ? "fill" : "")"></i>
+                }
+            </div>
+        </div>
+        <div class="star-bars">
+            @for (int i = 5; i >= 1; i--)
+            {
+                <div class="star-bar star-@(i)">
+                    <span>@i</span>
+                    <i class="fas fa-star"></i>
+                    <div class="bar">
+                        <span class="fill" style="width: @(ViewBag.StarCounts[i-1] * 20);"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="table-card">
+        <h6 class="table-heading">Feedback History</h6>
+        <table class="table table-sm rana-form-table staff-table">
+            <thead>
+                <tr>
+                    <th>Rate</th>
+                    <th>Admin Reply</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="rating-star">
+                                @for (int i = 0; i < item.RatingNumber; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.AdminReplay == null)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>@item.RatingDate.ToString("MM/dd/yyyy")</td>
+                        <td>
+                            <a class="tbl-btn px-4" asp-action="ReviewDetails" asp-route-id="@item.Id" style="text-decoration:none">View Ticket</a>
+
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@*<div class="admin-other-form">
+    <div class="mb-5 text-center">
+        <a asp-action="AddReview" style="text-decoration:none" class="tbl-btn"> Add Feedback</a>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Feedback History</h6>
+        <table class="table table-sm rana-form-table staff-table">
+            <thead>
+                <tr>
+                    <th>Rate</th>
+                    <th>Admin Reply</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="rating-star">
+                                @for (int i = 0; i < item.RatingNumber; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.AdminReplay == null)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        
+                        <td>@item.RatingDate.ToString("MM/dd/yyyy")
+                        <td>
+                           
+                            <a class="tbl-btn px-4" asp-action="ReviewDetails" asp-route-id="@item.Id" style="text-decoration:none">View Ticket</a>
+                            
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>*@

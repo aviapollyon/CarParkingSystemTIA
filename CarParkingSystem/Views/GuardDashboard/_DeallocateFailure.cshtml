@@ -1,0 +1,26 @@
+﻿@model CarParkingSystem.ViewModel.UserViewModel
+<div>
+    <h6 class="rana-form-h6 mb-4">Driver Information</h6>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>First Name:</span>
+            <span>@Model.FirstName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Last Name:</span>
+            <span>@Model.LastName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Role:</span>
+            <span>@Model.UserRole</span>
+        </p>
+        <p class="driver-info-p">
+            <span>ID Number:</span>
+            <span>@Model.idNumber</span>
+        </p>
+    </div>
+    <div class="driver-info">
+       <p class="text-center">User has not checked-in recently</p>
+    </div>
+   
+</div>

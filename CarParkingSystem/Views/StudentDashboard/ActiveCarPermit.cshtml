@@ -1,0 +1,50 @@
+﻿@model CarParkingSystem.ViewModel.ReserveViewModel
+@{
+    ViewData["Title"] = "ActiveCarPermit";
+}
+
+<div class="admin-other-form">
+    <div class="mb-5 text-center">
+      
+        <h5>Select a car for reservation</h5>
+    </div>
+   
+        <div class="table-card">
+            <h6 class="table-heading">Car Reservation</h6>
+            <table class="table table-sm rana-form-table staff-table">
+                <thead>
+                    <tr>
+                        <th>OrgNum</th>
+                        <th>regPlateNum</th>
+                        <th>Expiry Date</th>
+                        <th>Reservation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Permits)
+                    {
+                        <tr>
+                            <td>@item.OrgNum</td>
+                            <td>@item.regPlateNum</td>
+                            <td>@item.ExpDate.ToString("MM/dd/yyyy")</td>
+                            @if (Model.Reservations.Any(r => r.regPlateNum == item.regPlateNum))
+                            {
+                                <td>
+                                    <p>Already Reserved</p>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a class="tbl-btn" style="text-decoration:none" asp-route-id="@item.regPlateNum" asp-action="ReservationPermit">Select Car Reservation</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    
+
+</div>

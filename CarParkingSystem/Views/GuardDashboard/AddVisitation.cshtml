@@ -1,0 +1,102 @@
+﻿@model CarParkingSystem.Models.Visitation
+@{
+    ViewData["Title"] = "Add Visitation";
+}
+
+<style>
+    .add-bay-form2 {
+        margin: 120px auto;
+    }
+</style>
+<div class="add-bay-form2">
+    <form asp-action="AddVisitation" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">First Name:</label>
+                    <input type="text" asp-for="FirstNmae" class="rana-form-input" placeholder="Insert First Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Last Name:</label>
+                    <input type="text" asp-for="LastNmae" class="rana-form-input" placeholder="Insert Last Name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Purpose of Visit:</label>
+                    <input type="text" asp-for="purpose" class="rana-form-input" placeholder="Insert Purpose of Visit">
+                    <span class="text-danger" asp-validation-for="purpose"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Registration Plate:</label>
+                    <input type="text" asp-for="RegistrationPlate" class="rana-form-input" placeholder="Insert Registration Plate">
+                    <span asp-validation-for="RegistrationPlate" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Entry Date:</label>
+                    <input type="text" asp-for="EntryDate" class="rana-form-input" readonly value="@System.DateTime.Today.ToString("MM/dd/yyyy")">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Entry Time:</label>
+                    <input type="text" asp-for="EntryTime" id="currentTime"  class="rana-form-input" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 80px;">
+            <p class="rana-form-label" id="ParkingS">This driver will be allocated into spot: </p>
+            <input type="hidden" asp-for="ParkingBay" id="ParkingBay" />
+        </div>
+        <div class="text-center">
+            <button type="submit" class="rana-form-btn w-75">Record Visitation</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    document.getElementById("currentTime").value = hours + ":" + minutes;
+    </script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/GuardDashboard/GetSpot', 
+            type: 'GET', 
+            success: function (response) {
+                $('#ParkingS').text('This driver will be allocated into spot: ' + response.bayId);
+                $('#ParkingBay').val(response.bayId);
+
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 400) {
+                    $('.text-center').hide();
+                    $('#ParkingS').text('There is no available parking spot.');
+                }
+            }
+        });
+    });
+
+</script>
+
+}

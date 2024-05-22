@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CarParkingSystem.Models.Vehicle>
+@{
+    ViewData["Title"] = "Vehicle";
+}
+
+<div class="admin-other-form">
+    <div class="mb-2">
+        <a class="tbl-btn px-5" style="text-decoration:none" asp-action="AddVehicle">Add Vehicle </a>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Register Vehicle</h6>
+        <div class="table-responsive">
+            <table class="table table-sm rana-form-table">
+                <thead>
+                    <tr>
+                        <th>Vehicle Plate Number</th>
+                        <th>Vehicle Model</th>
+                        <th>vehicle Make</th>
+                        <th>vehicle Color</th>
+                        <th>vehicle registration expiry</th>
+                        <th>Id Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.regPlateNum)</td>
+                                <td>@item.vehicleModel</td>
+                                <td>@item.vehicleMake</td>
+                                <td>@item.vehicleColor</td>
+                                <td>@item.vehicleRegistrationDate.ToString("MM/dd/yyyy")</td>
+                                <td>@item.idNumber</td>
+                                <td>
+                                    <a style="text-decoration:none" class="tbl-btn" href="javascript:void(0)" onclick="confirmDelete('@item.Id')">Remove</a>
+                                    <a style="text-decoration:none" class="tbl-btn" asp-action="EditVehicle" asp-route-id="@item.Id">Edit</a>
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7"><h5 class="text-center">Record not found</h5></td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(id) {
+            swal({
+                title: "Are you sure?",
+                text: "You want to Delete this Vehicle",
+                type: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteCategory(id);
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+        }
+
+        function deleteCategory(id) {
+            $.ajax({
+                url: "/Vehicle/DeleteVehicle",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        swal("Done!", "It was successfully deleted!", "success").then(() => {
+                            window.location.href = '../Vehicle/Index';
+                        });
+                    } else {
+                        swal("Error deleting!", response.message, "error");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal("Error deleting!", "Please try again", "error");
+                }
+            });
+        }
+    </script>
+}
+

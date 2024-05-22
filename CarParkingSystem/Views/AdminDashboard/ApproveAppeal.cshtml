@@ -1,0 +1,74 @@
+﻿@model CarParkingSystem.ViewModel.StudentAppealViewModel
+@{
+    ViewData["Title"] = "Approve Appeal";
+}
+
+<style>
+    .center {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .overlay {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
+    .rana-form-labels {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: -30px;
+    }
+</style>
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <div style="margin-left:100px">
+        <dl class="row">
+            <dt class="col-sm-4">
+                Number:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                Serverity:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Severity)
+            </dd>
+            <dt class="col-sm-4">
+                Issued Date:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IssueDate)
+            </dd>
+            <dt class="col-sm-4">
+                Reason: 
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Reason)
+            </dd>
+            <dt class="col-sm-4">
+                Appeal Message:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AppealMessage)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="center">
+        <img src="~/Webapp/assets/media/images/Approve.png" style="width:200px" alt="Appeal">
+    </div>
+    <div class="overlay">
+        <p class="rana-form-labels">You have approved a violation appeal!</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; " class=" mt-5">
+        <a style="text-decoration: none" asp-action="StudentAppeal" class="tbl-btn">Go Back</a>
+    </div>
+</div>

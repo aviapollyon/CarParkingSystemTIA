@@ -1,0 +1,40 @@
+﻿@model CarParkingSystem.Models.BlackListDriver
+
+@{
+    ViewData["Title"] = "Driver Details";
+}
+
+<style>
+    .FormCenter {
+        margin-left: 300px;
+        margin-right: 300px
+    }
+</style>
+<div>
+    <h6 class="text-center mb-5 rana-form-label"> Driver Details</h6>
+</div>
+<div class="FormCenter">
+        <div class="form-group mb-3">
+            <label class="rana-form-label">Reg Plate Number</label>
+            <input type="text" asp-for="RegPlate" class="form-control" placeholder="Insert RegPlate Number" readonly />
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">First Name</label>
+            <input type="text" asp-for="FirstName" class="form-control" placeholder="Insert First Name" readonly />
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">Last Name</label>
+            <input type="text" asp-for="LastName" class="form-control" placeholder="Insert Last Name" readonly />
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">Purpose</label>
+            <textarea class="form-control" asp-for="Purpose" rows="7" placeholder="Purpose" readonly>
+
+          </textarea>
+        </div>
+        <div style="display: flex; justify-content: space-between; " class=" mt-5">
+            <a style="text-decoration: none" asp-action="Index" class="tbl-btn">Go Back</a>
+            <a style=" text-align: right; text-decoration: none" class="tbl-btn" asp-action="BlackListRemove" asp-route-id="@Model.Id">Remove From BlackList</a>
+        </div>
+    
+</div>

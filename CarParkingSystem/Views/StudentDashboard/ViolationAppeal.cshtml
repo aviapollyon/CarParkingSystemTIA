@@ -1,0 +1,53 @@
+﻿@model CarParkingSystem.Models.StudentViolation
+@{
+    ViewData["Title"] = "Violation Appeal";
+}
+
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <div style="margin-left:100px">
+        <dl class="row">
+            <dt class="col-sm-4">
+                Number:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                Serverity:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Severity)
+            </dd>
+            <dt class="col-sm-4">
+                Issued Date:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IssueDate)
+            </dd>
+
+        </dl>
+    </div>
+    <form asp-action="ViolationAppeal" method="post">
+        <input type="hidden" name="ViolationId" value="@Model.Id" />
+        <input type="hidden" name="Id" value="0" />
+        <div class="Guard-form">
+            <div class="mb-3">
+                <label class="rana-form-label">Reason For Appeal:</label>
+                <textarea name="ReasonAppeal" class="rana-form-input" required placeholder="Reason" cols="4"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="rana-form-label">Write an appeal message:</label>
+                <textarea name="AppealMessage" class="rana-form-input" required placeholder="Appeal Message" cols="4"></textarea>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-around;" class="mt-5">
+            <a style="text-decoration: none;" asp-action="StudentViolation" class="tbl-btn">Go Back</a>
+            <button type="submit" class="tbl-btn">Submit Appeal</button>
+        </div>
+    </form>
+
+</div>

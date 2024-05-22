@@ -1,0 +1,88 @@
+﻿@model CarParkingSystem.DTO.ViolationDTO
+@{
+    ViewData["Title"] = "Create Violation";
+}
+
+<style>
+    .center {
+        margin-left: 350px;
+        margin-right: 350px
+    }
+</style>
+<div class="center">
+    <form asp-action="CreateViolation" enctype="multipart/form-data" method="post">
+        <input type="hidden" asp-for="OffenseSelect" id="OffenseSelect" />
+        <input type="hidden" asp-for="OrgNumber" value="@ViewBag.OrgNumber" />
+        <input type="hidden" asp-for="RegPlate" value="@ViewBag.RegNumbers" />
+        <div class="form-group mb-3">
+            <div class="mb-3">
+                <label class="rana-form-label">Offense:</label>
+                <select class="rana-form-input" id="offenseCheck" asp-for="Severity" required>
+                    <option selected disabled>Select Offense</option>
+                    <option value="Low">Parking in other users reserved space</option>
+                    <option value="Low">Leaking oil on parking lot</option>
+                    <option value="Medium">Speeding Class 1</option>
+                    <option value="Medium">Parking in area not designated for parking</option>
+                    <option value="High">Property damage</option>
+                    <option value="High">Speeding Class 2</option>
+                    <option value="Severe">Parking in restricted area</option>
+                    <option value="Severe">Severe property damage</option>
+                    <option value="Severe">Endangering of lives</option>
+                    <option value="Severe">Speeding Class 3</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <p class="rana-form-label" id="severityText">Serverity:</p>
+        </div>
+        <div class="form-group mb-3">
+            <label class="rana-form-label">Parties Involved:</label>
+            <textarea class="form-control" rows="4" placeholder="Parties Involved" required asp-for="PartiesInvolved">
+
+      </textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label id="labelWordCount" class="rana-form-label">Insert Information:</label>
+            <textarea class="form-control"  rows="4" placeholder="Insert Information" required asp-for="AdditionInformation">
+         </textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label class="rana-form-label">Photo Attachments:</label>
+            <input type="file" class="rana-form-input" multiple asp-for="Listimages"  />
+        </div>
+        <div style="display: flex; justify-content: space-between; " class=" mt-5">
+            <a style="text-decoration: none" asp-action="ViolationVerification" class="tbl-btn">Go Back</a>
+            <button style=" text-align: right;" type="submit" class="tbl-btn">Issue Violation</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+    document.getElementById('offenseCheck').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        var offenseText = selectedOption.text;
+        var offenseValue = selectedOption.value;
+        document.getElementById('OffenseSelect').value = offenseText;
+        var selectedOption = offenseValue;
+        var severityText = document.getElementById('severityText');
+        switch(selectedOption) {
+            case 'Low':
+                severityText.textContent = 'Serverity: R 200';
+                break;
+            case 'Medium':
+                severityText.textContent = 'Serverity: R 400';
+                break;
+            case 'High':
+                severityText.textContent = 'Serverity: R 600';
+                break;
+            case 'Severe':
+                severityText.textContent = 'Serverity: No price, driver cannot pay directly and has to submit an appeal';
+                break;
+            default:
+                severityText.textContent = 'Serverity:';
+        }
+    });
+    </script>
+
+}

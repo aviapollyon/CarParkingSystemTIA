@@ -1,0 +1,104 @@
+﻿@model IEnumerable<CarParkingSystem.Models.UserLicense>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="admin-other-form">
+    <div class="mb-2">
+        <a class="tbl-btn px-5" style="text-decoration:none" asp-action="AddLicense">Add License</a>
+
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">User License</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Driver Name</th>
+                    <th>Valid</th>
+                    <th>Id Number</th>
+                    <th>License Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(item.DfirstName + " " + item.DlastName)</td>
+                            <td>
+                                @if(item.isValid == true)
+                                {
+                                    <p>License is valid</p>
+                                }
+                                else
+                    {
+                            <p>License is not Valid</p>
+                    }
+                            </td>
+                            <td>@item.idNumber</td>
+                            <td>@item.licenseNumber</td>
+                            <td>
+                                <a style="text-decoration:none" class="tbl-btn" href="javascript:void(0)" onclick="confirmDelete('@item.Id')">Remove</a>
+                                <a style="text-decoration:none" class="tbl-btn" asp-action="EditLicense" asp-route-id="@item.Id">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(id) {
+            swal({
+                title: "Are you sure?",
+                text: "You want to Delete this user license",
+                type: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteCategory(id);
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+        }
+
+        function deleteCategory(id) {
+            $.ajax({
+                url: "/License/Delete",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        swal("Done!", "It was successfully deleted!", "success").then(() => {
+                            window.location.href = '../License/Index';
+                        });
+                    } else {
+                        swal("Error deleting!", response.message, "error");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal("Error deleting!", "Please try again", "error");
+                }
+            });
+        }
+    </script>
+}

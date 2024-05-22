@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Permit verification";
+}
+
+<div class="Guard-form">
+    <form id="verificationForm" method="post">
+        <div class="mb-3">
+            <label class="rana-form-label">Driver Organization Number :</label>
+            <input type="number" class="rana-form-input" name="OrgNumber" id="orgNumberInput" placeholder="Insert 8-digit organization number">
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Vehicle Registration Plate :</label>
+            <input type="text" class="rana-form-input" name="RegistrationPlate" id="registrationPlateInput" placeholder="Insert vehicle plate here">
+        </div>
+        <div class="text-center mb-4">
+            <button type="button" id="validateButton" class="tbl-btn px-5">Validate Driver</button>
+        </div>
+    </form>
+
+</div>
+<div id="orderTrackingResult">
+    <div id="hiddendiv">
+        <div>
+            <h6 class="rana-form-h6 mb-4">Driver Information</h6>
+            <div class="driver-info">
+                <p class="driver-info-p">
+                    <span>First Name:</span>
+                    <span>...</span>
+                </p>
+                <p class="driver-info-p">
+                    <span>Last Name:</span>
+                    <span>...</span>
+                </p>
+                <p class="driver-info-p">
+                    <span>Role:</span>
+                    <span>...</span>
+                </p>
+                <p class="driver-info-p">
+                    <span>ID Number:</span>
+                    <span>...</span>
+                </p>
+            </div>
+            <div class="driver-info">
+                <p class="driver-info-p">
+                    <span>Modal:</span>
+                    <span>...</span>
+                </p>
+                <p class="driver-info-p">
+                    <span>Make:</span>
+                    <span>...</span>
+                </p>
+                <p class="driver-info-p">
+                    <span>Colour:</span>
+                    <span>...</span>
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#validateButton').click(function () {
+                var orgNumber = $('#orgNumberInput').val();
+                var registrationPlate = $('#registrationPlateInput').val();
+                if (!orgNumber || !registrationPlate) {
+                    alert('Please fill in all fields.');
+                    return; 
+                }
+                $.ajax({
+                    url: '/GuardDashboard/Verification', 
+                    type: 'POST',
+                    data: $('#verificationForm').serialize(), 
+                    dataType: "html",
+                    success: function (response) {
+                        if (response) {
+                            $("#hiddendiv").hide();
+                            $("#orderTrackingResult").html(response);
+                        }
+                        else {
+                            alert("Driver does not have an active parking permit!");
+                        }
+                      
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}
+

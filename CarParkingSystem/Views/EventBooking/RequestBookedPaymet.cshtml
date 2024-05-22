@@ -1,0 +1,117 @@
+﻿@model CarParkingSystem.Models.StudentEvent
+@{
+    ViewData["Title"] = "Request Booked Paymet";
+}
+
+<style>
+    .center {
+        margin-left: 400px;
+        margin-right: 400px
+    }
+</style>
+<div style="margin-top:20px">
+    <h4 class="text-center">Booking Payment</h4>
+</div>
+<div class="admin-other-form">
+    <dl class="row">
+        <dt class="col-sm-4">
+            Event Name:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+        <dt class="col-sm-4">
+            Amount to Paid:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.AmountPaid)
+        </dd>
+        <dt class="col-sm-4">
+            From:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventStartDate)
+        </dd>
+        <dt class="col-sm-4">
+            To:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EventEndDate)
+        </dd>
+        <dt class="col-sm-4">
+            Parking Section Booked:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ParkingBayId)
+        </dd>
+        <dt class="col-sm-4">
+            Vehicle Arrivals Expected:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.VehicleArrive)
+        </dd>
+
+    </dl>
+
+    <hr />
+    <div class="text-center">
+        <h3>Payment</h3>
+    </div>
+    <div class="center">
+        <form id="paymentForm" asp-action="RequestBookedPaymet">
+            <input type="hidden" name="EventId" value="@Model.Id" />
+            <input type="hidden" name="Id" value="0" />
+            <div class="mb-3">
+                <label class="rana-form-label">Card Number</label>
+                <input type="number" id="cardNumber" name="CardNumber" class="rana-form-input"  placeholder="Insert Card Number" />
+            </div>
+            <div class="mb-3">
+                <label class="rana-form-label">CVV</label>
+                <input type="number" id="cvv" name="CardCVV" class="rana-form-input"  placeholder="Insert CVV Number" />
+            </div>
+            <div class="mb-3">
+                <label class="rana-form-label">Expiry Date</label>
+                <input type="date" id="expiryDate" name="DateTime" class="rana-form-input"  />
+            </div>
+            <div class="text-center mt-5">
+                <button type="submit" class="rana-form-btn w-75">Confirm and Pay</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#paymentForm').submit(function (e) {
+                e.preventDefault();
+                var cardNumber = $('#cardNumber').val();
+                var cvv = $('#cvv').val();
+                var expiryDate = $('#expiryDate').val();
+
+                if (cardNumber.length < 14) {
+                    alert('Please enter a valid card number with 14 or more digits.');
+                    return;
+                }
+
+                if (cvv.length !== 3) {
+                    alert('Please enter a valid 3-digit CVV number.');
+                    return;
+                }
+                if (!expiryDate) {
+                    alert('Please enter the expiry date.');
+                    return;
+                }
+                var currentDate = new Date();
+                var selectedDate = new Date(expiryDate);
+
+                if (selectedDate <= currentDate) {
+                    alert('Your card has expired');
+                    return;
+                }
+                this.submit();
+            });
+        });
+    </script>
+}

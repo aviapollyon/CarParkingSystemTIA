@@ -1,0 +1,72 @@
+﻿@model CarParkingSystem.ViewModel.ReserveViewModel
+@{
+    ViewData["Title"] = "Reservation Unverified";
+}
+
+<div class="admin-other-form">
+    <div class="mb-2">
+        <h3 class="text-center">Allocate Parking Bay</h3>
+        <p class="text-center">User doesn't have a reservation</p>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Bays</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Bay</th>
+                    <th>Occupancy</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Bays.Any())
+                {
+                    @foreach (var item in Model.Bays)
+                    {
+                        <tr>
+                            <td>@item.SectionLetter</td>
+                            <td>@item.BayNumber</td>
+                            <td>
+                                @if (Model.ParkingBays.Any(pb => pb.BaySection == item.SectionLetter && pb.BayNumber == item.BayNumber))
+                                {
+                                    var parkingBay = Model.ParkingBays.FirstOrDefault(pb => pb.BaySection == item.SectionLetter && pb.BayNumber == item.BayNumber);
+
+
+                                    <p>@parkingBay?.Occupacy</p>
+                                }
+                                else
+                                {
+                                    <p>Un define</p>
+                                }
+
+                            </td>
+                            <td>
+                                @if (Model.ParkingBays.Any(pb => pb.BaySection == item.SectionLetter && pb.BayNumber == item.BayNumber && pb.Occupacy != "Unoccupied"))
+                                {
+
+                                  <p>Un available</p>      
+
+                                }
+                                else
+                                {
+                                    <a class="tbl-btn" asp-action="GuardParkingBay" asp-route-regNum="@Model.regNumber" asp-route-bayId="@(item.SectionLetter +" " + item.BayNumber)"  style="text-decoration:none">Select</a>
+
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

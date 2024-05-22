@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CarParkingSystem.ViewModel.HistoryViewModel>
+
+@{
+    ViewData["Title"] = "User Parking History";
+}
+
+<div class="admin-other-form">
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Parking History</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Org Number</th>
+                    <th>Full Name</th>
+                    <th>Bay ID</th>
+                    <th>Check-In</th>
+                    <th>Check-Out</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.OrgNumber</td>
+                        <td>@item.FullName</td>
+                        <td>@item.BayId</td>
+                        <td>@item.CheckIn.ToString("h:mm:ss tt")</td>
+                        <td>@item.CheckOut?.ToString("h:mm:ss tt")</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

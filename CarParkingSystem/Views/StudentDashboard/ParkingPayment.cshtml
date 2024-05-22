@@ -1,0 +1,29 @@
+﻿@model CarParkingSystem.DTO.ParkingDTO
+@{
+    ViewData["Title"] = "Parking Payment";
+}
+
+<div class="">
+    <div class="mb-4 mt-5 text-start">
+        <p class="rana-form-p">You Will Reserve Parking Bay : @ViewBag.BayID</p>
+    </div>
+    <form asp-action="ConfirmPayment" method="post">
+        <input type="hidden" asp-for="RegNumber" value="@ViewBag.RegNumber" />
+        <input type="hidden" asp-for="BayID" value="@ViewBag.BayID" />
+        <div class="mb-3">
+            <label class="rana-form-label">From:</label><br>
+            <input type="date" class="rana-form-input" asp-for="ReservationDateFrom" required style="width: 500px;">
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">To:</label><br>
+            <input type="date" class="rana-form-input" style="width: 500px;" asp-for="ReservationDateTo" required >
+        </div>
+        <div class="mb-4 mt-5">
+            <p class="rana-form-p">Cost of Reservation: R5</p>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="tbl-btn px-5">Confirm Reservation</button>
+        </div>
+    </form>
+ 
+</div>

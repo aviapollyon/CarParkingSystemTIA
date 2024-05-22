@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CarParkingSystem.Models.GuardSchedule>
+@{
+    ViewData["Title"] = "View Schedule";
+}
+
+<style>
+    .admin-other-forms {
+        margin: 61px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">View Schedule</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Org Number</th>
+                    <th>Full Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrgNumber</td>
+                            <td>@(item.FirstName + " " + item.LastName) </td>    
+                            <td>@item.Status</td>
+                            
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

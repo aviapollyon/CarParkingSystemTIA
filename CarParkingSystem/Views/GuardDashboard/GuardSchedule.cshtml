@@ -1,0 +1,100 @@
+﻿@model CarParkingSystem.ViewModel.GuardSchedule.GuardScheduleCheckInViewModel
+
+@{
+    ViewData["Title"] = "Guard Schedule";
+}
+
+<style>
+    .admin-other-forms {
+        margin: 61px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+@*     <div class="text-center">
+        <a class="tbl-btn px-5" style="text-decoration:none" asp-route-OrgNumber="@Model.LoginUserOrgNumber" asp-action="GuardScheduleCheckIn">Check In</a>
+      
+    </div> *@
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Guard Schedule</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Org Number</th>
+                    <th>Full Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.GuardSchedulesList.Any())
+                {
+                    @foreach (var item in Model.GuardSchedulesList)
+                    {
+                        <tr>
+                            <td>@item.OrgNumber</td>
+                            <td>@(item.FirstName + " " + item.LastName)</td>
+                            @{
+                                DateTime currentTime = DateTime.Now;
+                                DateTime onDutyTime = DateTime.Parse(item.OnDutyTime);
+                                DateTime offDutyTime = DateTime.Parse(item.OffDutyTime);
+                                DateTime breakStartTime = DateTime.Parse(item.ToBreakTime); 
+                                DateTime breakEndTime = DateTime.Parse(item.FromBreakTime);   
+
+                                string status = "Off-Duty";
+
+                                if (currentTime < onDutyTime)
+                                {
+                                    status = "Off-Duty";
+                                }
+                                else if (currentTime >= onDutyTime && currentTime <= offDutyTime)
+                                {
+                                    if (currentTime >= breakStartTime && currentTime <= breakEndTime)
+                                    {
+                                        status = "Break";
+                                    }
+                                    else if (item.Status != "Late for Shift")
+                                    {
+                                        status = "On-Duty";
+                                    }
+                                    else
+                                    {
+                                        status = "Late for Shift";
+                                    }
+                                }
+                                else if (currentTime > offDutyTime)
+                                {
+                                    status = "Off-Duty";
+                                }
+
+                                if (currentTime >= onDutyTime && currentTime <= offDutyTime)
+                                {
+                                    if (item.Status == "Unavailable")
+                                    {
+                                        status = "Available";
+                                    }
+                                }
+                            }
+
+                            <td>
+                                @status
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

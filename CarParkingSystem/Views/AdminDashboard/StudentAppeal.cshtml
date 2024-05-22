@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CarParkingSystem.ViewModel.StudentAppealViewModel>
+@{
+    ViewData["Title"] = "Student Appeal";
+    int i = 0;
+}
+
+<style>
+    .admin-other-forms {
+        margin: 61px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Appeals</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Serverity</th>                
+                    <th>Issued</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.Severity </td>
+                            <td>@item.IssueDate.ToString("MM/dd/yyyy") </td>
+                            <td>
+                                <a style="text-decoration:none" class="tbl-btn" asp-action="AppealsDetails" asp-route-id="@item.Id">Details</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

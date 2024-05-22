@@ -1,0 +1,32 @@
+﻿@model CarParkingSystem.Models.BlackListDriver
+@{
+    ViewData["Title"] = "BlackList Remove";
+}
+
+<style>
+    .center {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .overlay {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+</style>
+<div style="margin-bottom:200px">
+    <h3 class="text-center mb-5">Remove Confirmation</h3>
+</div>
+<div class="center">
+    <div class="overlay">
+        <p class="rana-form-label">Are you sure you want to continue?</p>
+    </div>
+    <img src="~/Webapp/assets/media/images/Deny.png" style="width:200px" alt="Deny">
+</div>
+<div style="display: flex; justify-content: space-between; " class=" mt-5">
+    <a style="text-decoration: none" asp-action="Index" class="tbl-btn">Go Back</a>
+    <a style=" text-align: right; text-decoration: none" class="tbl-btn" asp-action="ConfirmRemove" asp-route-id="@Model.Id">Confirm Remove</a>
+</div>

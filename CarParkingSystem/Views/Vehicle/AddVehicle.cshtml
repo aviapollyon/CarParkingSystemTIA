@@ -1,0 +1,77 @@
+﻿@model CarParkingSystem.Models.Vehicle
+@{
+    ViewData["Title"] = "Add Vehicle";
+}
+
+
+<style>
+    .add-bay-form2 {
+        margin: 120px auto;
+    }
+</style>
+<div class="add-bay-form2">
+    <form asp-action="AddVehicle" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Select Id Number:</label>
+                    <select  class="rana-form-input" asp-items="ViewBag.User" asp-for="idNumber">
+                        <option selected disabled>Please select User id</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Vehicle Model:</label>
+                    <input type="number" asp-for="vehicleModel"  class="rana-form-input" placeholder="Insert Vehicle Model" >
+                    <span asp-validation-for="vehicleModel" class="text-danger"></span>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row" >
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Vehicle Make:</label>
+                    <input type="text" asp-for="vehicleMake" class="rana-form-input" placeholder="Insert vehicle Make">
+                    <span asp-validation-for="vehicleMake" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Vehicle Colour:</label>
+                    <input type="text" asp-for="vehicleColor"  class="rana-form-input" placeholder="Insert Vehicle Colour">
+                    <span asp-validation-for="vehicleColor" class="text-danger"></span>
+                    <span id="licenseNumberError" class="text-danger"></span>
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Vehicle Plate Number:</label>
+                    <input type="text" asp-for="regPlateNum" class="rana-form-input" placeholder="Insert Vehicle Plate Number">
+                    <span asp-validation-for="regPlateNum" class="text-danger"></span>
+                    <span id="licenseNumberError" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="rana-form-label">Vehicle registration expiry:</label>
+                    <input type="date" asp-for="vehicleRegistrationDate" class="rana-form-input" placeholder="Insert Vehicle Plate Number">
+                    <span asp-validation-for="vehicleRegistrationDate" class="text-danger"></span>
+                    <span id="licenseNumberError" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="rana-form-btn w-75">Add Vehicle </button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

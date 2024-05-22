@@ -1,0 +1,28 @@
+﻿@model CarParkingSystem.Models.Bay
+
+@{
+    ViewData["Title"] = "Add Bay";
+}
+
+<div class="add-bay-form">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label class="rana-form-label">Section Letter:</label>
+            <input type="text" asp-for="SectionLetter" class="rana-form-input" placeholder="Insert section letter">
+            <span asp-validation-for="SectionLetter" class="text-danger"></span>
+        </div>
+        <div class="" style="margin-bottom: 80px;">
+            <label class="rana-form-label">Bay Number:</label>
+            <input type="number" asp-for="BayNumber" class="rana-form-input" placeholder="Insert bay Number">
+            <span asp-validation-for="BayNumber" class="text-danger"></span>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="rana-form-btn w-75">Add Bay</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,95 @@
+﻿@model CarParkingSystem.Models.GuardSchedule
+@{
+    ViewData["Title"] = "Set Schedule";
+}
+
+<style>
+    .setmargin{
+        margin-left:110px;
+        margin-right : 110px;
+        margin-top: 20px;
+    }
+    .Label {
+        display: flex;
+        justify-content: center;
+        margin-top: 11px;
+    }
+</style>
+<div>
+    <h6 class="rana-form-h6 mb-4">Guard Information</h6>
+    <div class="driver-info">
+        <p class="driver-info-p mt-3">
+            <span>Org Number:</span>
+            <span>@Model?.OrgNumber</span>
+        </p>
+        <p class="driver-info-p mt-3">
+            <span>First Name:</span>
+            <span>@Model?.FirstName</span>
+        </p>
+        <p class="driver-info-p mt-3">
+            <span>Last Name:</span>
+            <span>@Model?.LastName</span>
+        </p>
+        <p class="driver-info-p mt-3">
+            <span>Current On-Duty Time:</span>
+            <span>@Model?.OnDutyTime</span>
+        </p>
+        <p class="driver-info-p mt-3">
+            <span>Current Off-Duty Time:</span>
+            <span>@Model?.OffDutyTime</span>
+        </p>
+        <p class="driver-info-p mt-3">
+            <span>Current Break Time:</span>
+            <span>@(Model?.ToBreakTime + " To " + Model?.FromBreakTime) </span>
+        </p>
+    </div>
+</div>
+<hr />
+<div class="text-center">
+    <h5>Set Duty Time</h5>
+</div>
+<div class="setmargin">
+   <form asp-action="SetSchedule" method="post">
+       <input type="hidden" name="OrgNumber" value="@ViewBag.OrgNumber" />
+       <input type="hidden" name="Status" value="@ViewBag.Status" />
+       <input type="hidden" name="Id" value="@ViewBag.Id" />
+       <input type="hidden" name="FirstName" value="@ViewBag.FirstName" />
+       <input type="hidden" name="LastName" value="@ViewBag.LastName" />
+       <div class="row">
+           <div class="col-md-6">
+               <div class="form-group">
+                   <label class="rana-form-label">Set On Duty-Time:</label>
+                   <input type="time" name="OnDutyTime" class="form-control" placeholder="Set Duty Time" />
+               </div>
+           </div>
+           <div class="col-md-6">
+               <div class="form-group">
+                   <label class="rana-form-label">Set Off Duty-Time:</label>
+                   <input type="time" class="form-control" name="OffDutyTime" placeholder="Set Duty Time" />
+               </div>
+           </div>
+       </div>
+
+       <div class="row mt-5" style="margin-bottom: 80px;">
+           <div class="col-md-5">
+               <div class="form-group">
+                   <label class="rana-form-label">Set Break-Time:</label>
+                   <input type="time" class="form-control" placeholder="Set Duty Time" name="ToBreakTime" />
+               </div>
+           </div>
+           <div class="col-md-2">
+              <br />
+               <label class="Label">To</label>
+           </div>
+           <div class="col-md-5">
+               <div class="form-group">
+                   <label class="rana-form-label">Set Off Break-Time:</label>
+                   <input type="time" class="form-control" placeholder="Set Duty Time" name="FromBreakTime"/>
+               </div>
+           </div>
+       </div>
+       <div class="text-center mb-3" >
+           <button class="tbl-btn" type="submit">Confirm</button>
+       </div>
+   </form>
+</div>

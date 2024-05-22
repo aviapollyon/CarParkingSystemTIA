@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CarParkingSystem.Models.Feedback>
+
+@{
+    ViewData["Title"] = "User Feedback";
+}
+
+<div class="admin-other-form" style="margin-top:100px">
+    <div class="mb-5 text-center">
+        <a style="text-decoration:none" class="tbl-btn"> Feedback</a>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Feedback History</h6>
+        <table class="table table-sm rana-form-table staff-table">
+            <thead>
+                <tr>
+                    <th>Rate</th>
+                    <th>Admin Reply</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="rating-star">
+                                @for (int i = 0; i < item.RatingNumber; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.AdminReplay == null)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                       
+                        <td>@item.RatingDate.ToString("MM/dd/yyyy")
+                        <td>
+
+                            <a class="tbl-btn px-4" asp-action="ReplyReview" asp-route-id="@item.Id" style="text-decoration:none">View Ticket</a>
+
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<CarParkingSystem.Models.Permit>
+@{
+    ViewData["Title"] = "Active Parking Permit";
+}
+
+<div class="admin-other-form">
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Active Parking Permits</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Org Number</th>
+                    <th>Plate Number</th>
+                    <th>Expiry</th>
+                    <th>Activte</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrgNum</td>
+                            <td>@item.regPlateNum</td>
+                            <td>@item.ExpDate.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                @if (item.isGet == true)
+                                {
+                                    <p>Parking Permit active</p>
+                                }
+                                else
+                                {
+                                    <p>Parking Permit not active</p>
+                                }
+                            </td>
+                            <td>
+                                <a style="text-decoration:none" class="tbl-btn" href="javascript:void(0)" onclick="confirmDelete('@item.Id')">Revoke</a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(id) {
+            swal({
+                title: "Are you sure?",
+                text: "You want to Cancel this Reservation",
+                type: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteCategory(id);
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+        }
+
+        function deleteCategory(id) {
+            $.ajax({
+                url: "/AdminDashboard/UpdateParkingPermit",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        swal("Done!", "It was successfully Update!", "success").then(() => {
+                            window.location.href = '../AdminDashboard/ActiveParkingPermit';
+                        });
+                    } else {
+                        swal("Error deleting!", response.message, "error");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal("Error deleting!", "Please try again", "error");
+                }
+            });
+        }
+    </script>
+}

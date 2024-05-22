@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="../../">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="~/Webapp/assets/media/images/logo.jpg" type="image/x-icon">
+    <!-- custom styling -->
+    <link rel="stylesheet" href="~/Webapp/assets/css/style.css" />
+    <!-- bootstrap  -->
+    <link rel="stylesheet" href="~/Webapp/assets/css/bootstrap.min.css" />
+    <!-- icons -->
+    <link rel="stylesheet" href="~/Webapp/assets/icons/fontawesome/css/all.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+
+    <!-- dropzone -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" rel="stylesheet">
+
+    <title>Car Parking - @ViewData["Title"]</title>
+</head>
+
+<body>
+
+    <div class="content">
+        <div class="rana-form-template">
+            <div class="head">
+                <div class="row align-items-center">
+                    <div class="col-auto px-0">
+                        <img src="~/Webapp/assets/media/images/logo.jpg" style="height: 100px;" />
+                    </div>
+                    <div class="col px-0">
+                        <h1 class="org-heading">Futureville</h1>
+                    </div>
+                </div>
+
+
+                <div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="navbar-list">
+                            <a asp-action="Logout" asp-controller="Login">Logout</a>
+                            <a asp-action="ActiveParkingPermit" asp-controller="AdminDashboard">Permits</a>
+                            <a asp-action="ActiveReservation" asp-controller="AdminDashboard">Reservations</a>
+                            <a asp-action="ParkingHistory" asp-controller="AdminDashboard">History</a>
+                            <a asp-action="Index" asp-controller="Bays">Bays</a>
+                            <a asp-action="Index" asp-controller="Vehicle">Vehicles</a>
+                            <a asp-action="Index" asp-controller="License">Licences</a>
+                            <a asp-action="UserList" asp-controller="AddUser">Users</a>
+                            <a asp-action="UserFeedback" asp-controller="AdminDashboard">Feedback</a>
+                            <a asp-action="Index" asp-controller="Schedule">Schedule</a>
+                            <a asp-action="PendingEvent" asp-controller="AdminDashboard">Booking</a>
+                            <a asp-action="StudentAppeal" asp-controller="AdminDashboard">Appeals</a>
+                        </div>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        <div class="navbar-list">
+                            <a asp-action="Logout" asp-controller="Login">Logout</a>
+                            <a asp-action="PurchasePermit" asp-controller="StudentDashboard">Permits</a>
+                            <a asp-action="Reservation" asp-controller="StudentDashboard">Reservations </a>
+                            <a asp-action="ParkingHistory" asp-controller="StudentDashboard">History</a>
+                            <a asp-action="Availabilty" asp-controller="StudentDashboard">Availability</a>
+                            <a asp-action="StudentReview" asp-controller="StudentDashboard">Feedback</a>
+                            <a asp-action="Index" asp-controller="EventBooking">Booking</a>
+                            <a asp-action="StudentViolation" asp-controller="StudentDashboard">Violations</a>
+                        </div>
+                    }
+                    else if (User.IsInRole("Guard"))
+                    {
+                        <div class="navbar-list">
+                            <a asp-action="Logout" asp-controller="Login">Logout</a>
+                            <a asp-action="Permitverification" asp-controller="GuardDashboard">Allocate</a>
+                            <a asp-action="DeallocateBay" asp-controller="GuardDashboard">Deallocate </a>
+                            <a asp-action="ActiveReservation" asp-controller="GuardDashboard">Reservations </a>
+                            <a asp-action="ParkingHistory" asp-controller="GuardDashboard">History</a>
+                            <a asp-action="Availability" asp-controller="GuardDashboard">Availability</a>
+                            <a asp-action="Visitation" asp-controller="GuardDashboard">Visitations</a>
+                            <a asp-action="StudentPermit" asp-controller="GuardDashboard">QrCode</a>
+                            <a asp-action="GuardSchedule" asp-controller="GuardDashboard">Schedule</a>
+                            <a asp-action="Index" asp-controller="BlackList">BlackList</a>
+                            <a asp-action="BookingNotExist" asp-controller="GuardDashboard">Booking</a>
+                            <a asp-action="ViolationVerification" asp-controller="Violation">Violations</a>
+
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="body">
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+    <script src="~/Webapp/assets/icons/fontawesome/js/all.min.js"></script>
+    <script src="~/Webapp/assets/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

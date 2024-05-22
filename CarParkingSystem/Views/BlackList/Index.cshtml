@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CarParkingSystem.Models.BlackListDriver>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .admin-other-forms {
+        margin: 61px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+    <div class="text-center">
+        <a class="tbl-btn px-5" style="text-decoration:none" asp-action="AddDriver">Add BlackList Driver</a>
+
+    </div>
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">BlackList Driver</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Reg Plate</th>
+                    <th>Full Name</th>                  
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.RegPlate</td>
+                            <td>@(item.FirstName + " " + item.LastName) </td>
+                            <td>
+                                <a style="text-decoration:none" class="tbl-btn" asp-action="DriverDetails" asp-route-id="@item.Id">View Details</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

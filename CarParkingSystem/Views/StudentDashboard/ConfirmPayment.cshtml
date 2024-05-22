@@ -1,0 +1,72 @@
+﻿@model CarParkingSystem.DTO.ParkingDTO
+@{
+    ViewData["Title"] = "Confirm Payment";
+}
+
+<div class="">
+    <h6 class="rana-form-h6 mb-5">Payment</h6>
+    <h6 class="rana-form-h6 mb-5 text-start ps-5">Payment Total:R @ViewBag.Total</h6>
+    <div class="Guard-form">
+        <form asp-action="ParkingPaymentConfirmation" method="post" id="ReservationForm">
+            <input type="hidden" asp-for="TotalAmount" value="@ViewBag.Total" />
+            <input type="hidden" asp-for="BayID" />
+            <input type="hidden" asp-for="RegNumber" />
+            <input type="hidden" asp-for="ReservationDateTo" value="@ViewBag.ReservationExpDate" />
+
+            <div class="mb-3">
+                <label class="rana-form-label">Card Number:</label>
+                <input type="text" asp-for="CardNumber" id="cardNumber" class="rana-form-input" placeholder="Card Number">
+            </div>
+
+            <div class="mb-3">
+                <label class="rana-form-label">CVV</label>
+                <input type="number" id="cvv" class="rana-form-input" asp-for="CardCVV" placeholder="CVV">
+            </div>
+            <div class="mb-3">
+                <label class="rana-form-label">Expiry Date:</label>
+                <input type="date" id="expiryDate" class="rana-form-input" asp-for="DateTime" placeholder="Expiry Date">
+            </div>
+            <div class="text-center mb-3">
+                <button type="submit" class="rana-form-btn w-75">Purchase Reservation</button>
+            </div>
+        </form>
+        <div class="text-center mb-5">
+            <a class="rana-form-a">Email Invoice?</a>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+$(document).ready(function () {
+    $('#ReservationForm').submit(function (e) {
+        e.preventDefault();
+        var cardNumber = $('#cardNumber').val();
+        var cvv = $('#cvv').val();
+        var expiryDate = $('#expiryDate').val();
+
+        if (cardNumber.length < 14) {
+            alert('Please enter a valid card number with 14 or more digits.');
+            return;
+        }
+
+        if (cvv.length !== 3) {
+            alert('Please enter a valid 3-digit CVV number.');
+            return;
+        }
+        if (!expiryDate) {
+            alert('Please enter the expiry date.');
+            return;
+        }
+        var currentDate = new Date();
+        var selectedDate = new Date(expiryDate);
+
+        if (selectedDate <= currentDate) {
+            alert('Your card has expired');
+            return;
+        }
+        this.submit();
+    });
+});
+    </script>
+}

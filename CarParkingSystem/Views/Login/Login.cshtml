@@ -1,0 +1,36 @@
+﻿@model CarParkingSystem.DTO.LoginDTO
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+}
+<div class="login-form">
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label class="rana-form-label">Organization Number:</label>
+            <input type="number" class="rana-form-input" asp-for="OrgNumer" placeholder="Insert 8-digit organization number" required>
+            <span asp-validation-for="OrgNumer" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Password:</label>
+            <input type="password" asp-for="Password" class="rana-form-input" placeholder="Insert Your Password" required>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="rana-form-btn">Login</button>
+        </div>
+        <div class="text-center" style="margin-bottom: 70px;">
+            <a href="" class="rana-form-a">Forgot Password?</a>
+        </div>
+        <div class="">
+            <p class="rana-form-p">First time using our sustem?</p>
+            <a class="rana-form-btn" style="text-decoration:none" asp-action="ActiveAccount" asp-controller="Login">Activate Account</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

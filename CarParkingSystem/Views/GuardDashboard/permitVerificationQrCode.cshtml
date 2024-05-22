@@ -1,0 +1,60 @@
+﻿@model CarParkingSystem.ViewModel.UserViewModel
+
+@{
+    ViewData["Title"] = "Permit Verification QrCode";
+}
+<div class="Guard-form">
+   
+        <div class="mb-3">
+            <label class="rana-form-label">Driver Organization Number :</label>
+            <input type="number" class="rana-form-input" name="OrgNumber" value="@Model.orgNum" placeholder="Insert 8-digit organization number" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="rana-form-label">Vehicle Registration Plate :</label>
+            <input type="text" class="rana-form-input" name="RegistrationPlate" value="@Model.RegisterPlate"  placeholder="Insert vehicle plate here" readonly>
+        </div>
+</div>
+<div>
+    <h6 class="rana-form-h6 mb-4">Driver Information</h6>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>First Name:</span>
+            <span>@Model.FirstName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Last Name:</span>
+            <span>@Model.LastName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Role:</span>
+            <span>@Model.UserRole</span>
+        </p>
+        <p class="driver-info-p">
+            <span>ID Number:</span>
+            <span>@Model.idNumber</span>
+        </p>
+    </div>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>Modal:</span>
+            <span>@Model.Model</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Make:</span>
+            <span>@Model.Make</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Colour:</span>
+            <span>@Model.Color</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Permit ID:</span>
+            <span>@Model.PermitId</span>
+        </p>
+    </div>
+    <div class="text-center">
+        <a asp-action="ReservationVerified" asp-route-id="@Model.RegisterPlate" class="tbl-btn" style="text-decoration:none">Allocate Bay</a>
+        <a asp-action="DeallocateBayVerifactionQR" asp-route-OrgNumber="@Model.orgNum" asp-route-RegistrationPlate="@Model.RegisterPlate" class="tbl-btn" style="text-decoration:none">Deallocate Bay</a>
+    </div>
+</div>
+

@@ -1,0 +1,48 @@
+﻿@model CarParkingSystem.Models.BlackListDriver
+@{
+    ViewData["Title"] = "Add Black List Driver";
+}
+
+<style>
+    .FormCenter {
+        margin-left:300px;
+        margin-right: 300px
+    }
+    
+</style>
+<div class="FormCenter">
+    <form asp-action="AddDriver" method="post">
+        <div class="text-danger" asp-validation-summary="ModelOnly">
+
+        </div>
+        <div class="form-group mb-3">
+            <label class="rana-form-label">Reg Plate Number</label>
+            <input type="text" asp-for="RegPlate" class="form-control" placeholder="Insert RegPlate Number" />
+            <span class="text-danger" asp-validation-for="RegPlate"></span>
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">First Name</label>
+            <input type="text" asp-for="FirstName" class="form-control" placeholder="Insert First Name" />
+            <span class="text-danger" asp-validation-for="FirstName"></span>
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">Last Name</label>
+            <input type="text" asp-for="LastName" class="form-control" placeholder="Insert Last Name" />
+            <span class="text-danger" asp-validation-for="LastName"></span>
+        </div>
+        <div class="form-group mb-2">
+            <label class="rana-form-label">Purpose</label>
+            <textarea class="form-control" asp-for="Purpose" rows="7" placeholder="Purpose">
+
+</textarea>
+            <span class="text-danger" asp-validation-for="Purpose"></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; " class=" mt-5">
+           <a style="text-decoration: none" asp-action="Index" class="tbl-btn">Go Back</a>
+            <button style=" text-align: right;" type="submit" class="tbl-btn">BlackList Driver</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

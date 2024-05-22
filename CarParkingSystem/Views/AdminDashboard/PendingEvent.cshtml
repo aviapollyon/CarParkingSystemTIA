@@ -1,0 +1,166 @@
+﻿@model IEnumerable<CarParkingSystem.Models.StudentEvent>
+
+@{
+    ViewData["Title"] = "Pending Event";
+}
+
+<style>
+    .admin-other-forms {
+        margin: 50px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+    <div class="text-center">
+        <h3>Pending Event</h3>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Event</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Host</th>
+                    <th>Confirm/deny</th>
+                    <th>Action</th>
+                    <th>Event Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model.Where(x=>x.isDelete == false))
+                    {
+                        <tr>
+                            <td>@item.EventName</td>
+                            <td>@item.OrgNumber</td>
+                            <td>
+                                @if (item.EventStatus == "unConfirm")
+                                {
+                                    bool paymentExists = false;
+                                    foreach (var check in ViewBag.Payment)
+                                    {
+                                        if (check.EventId == item.Id)
+                                        {
+                                            paymentExists = true;
+                                            break;
+                                        }
+                                    }
+
+                                    bool otherEventExists = Model.Any(x => x.Id != item.Id && x.EventStartDate.Date == item.EventStartDate.Date);
+
+                                    if (paymentExists || otherEventExists)
+                                    {
+                                        <p>Already confirmed one event</p>
+                                    }
+                                    else
+                                    {
+                                        <a style="text-decoration:none" class="tbl-btn" href="javascript:void(0)" onclick="confirmEvent('@item.Id')">Approve</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Confirmed</p>
+                                }
+                            </td>
+                            <td>
+
+
+                                <a style="text-decoration:none" class="tbl-btn" asp-action="EventDetails" asp-route-id="@item.Id">View</a>
+                                <a style="text-decoration:none" class="tbl-btn" asp-action="EventHistory" asp-route-id="@item.Id">History</a>
+
+                            </td>
+
+                            <td>
+
+                                @{
+                                    string CurrentDate = System.DateTime.Today.Date.ToString();
+                                    DateTime currentDate = DateTime.Parse(CurrentDate);
+                                    DateTime startDate = item.EventStartDate.Date;
+                                    DateTime endDate = item.EventEndDate.Date;
+
+                                    if (currentDate >= startDate && currentDate <= endDate)
+                                    {
+
+                                        <p>Event Started</p>
+                                    }
+                                    else if (currentDate <= endDate)
+                                    {
+                                       
+                                            <p>This Event has been end.</p>
+                                        
+
+
+                                    }
+                                    else
+                                    {
+                                        if (item.isDelete == false)
+                                        {
+                                            <a style="text-decoration:none" class="tbl-btn" asp-action="EndEvent" asp-route-id="@item.Id">End Event</a>
+
+                                        }
+                                        else
+                                        {
+                                            <p>This Event has been end.</p>
+                                        }
+                                    }
+
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmEvent(id) {
+            swal({
+                title: "Are you sure?",
+                text: "You want to Confirm This Event.",
+                type: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteCategory(id);
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+        }
+
+        function deleteCategory(id) {
+            $.ajax({
+                url: "/AdminDashboard/UpdateEventStatus",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        swal("Done!", "It was successfully deleted!", "success").then(() => {
+                            window.location.href = '../AdminDashboard/PendingEvent';
+                        });
+                    } else {
+                        swal("Error deleting!", response.message, "error");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal("Error deleting!", "Please try again", "error");
+                }
+            });
+        }
+    </script>
+}

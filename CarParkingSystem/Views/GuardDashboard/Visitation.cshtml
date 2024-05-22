@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CarParkingSystem.Models.Visitation>
+@{
+    ViewData["Title"] = "Visitation";
+}
+<style>
+    .admin-other-forms {
+        margin: 51px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+    <div class="mb-2" style="display:flex; justify-content:center">
+        <a class="tbl-btn px-5" style="text-decoration:none" asp-action="AddVisitation">Add Visitation</a>
+
+    </div>
+    <div class="mb-2">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="table-card">
+        <h6 class="table-heading">Parking History</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Reg No</th>
+                    <th>Entry Date</th>
+                    <th>Entry Time</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.RegistrationPlate</td>
+                            <td>@item.EntryDate.ToString("MM/dd/yyyy")</td>
+                            <td>@item.EntryTime</td>
+                            <td>                             
+                                <a asp-action="VisitationDetails" asp-route-id="@item.Id" class="tbl-btn" style="text-decoration:none">View Details</a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

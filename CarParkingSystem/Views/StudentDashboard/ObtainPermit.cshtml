@@ -1,0 +1,139 @@
+﻿@model CarParkingSystem.ViewModel.UserParkingPermitViewModel
+@{
+    ViewData["Title"] = "Obtain Permit";
+}
+
+<div class="">
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>Your ID Number is:</span>
+            <span>@Model.UserInformation.IdNumber</span>
+        </p>
+    </div>
+    <h6 class="rana-form-h6 mb-4">License Information</h6>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>License Number:</span>
+            <span>@Model.UserInformation.LicenseNumber</span>
+        </p>
+        <p class="driver-info-p">
+            <span>First Name:</span>
+            <span>@Model.UserInformation.FirstName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Last Name:</span>
+            <span>@Model.UserInformation.LastName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Validity:</span>
+            <span>@Model.UserInformation.LicenceValidity</span>
+        </p>
+    </div>
+    <h6 class="rana-form-h6 mb-4">Vehicle Found: R100 per vehicle</h6>
+    @if (Model.UserInformation.LicenceValidity == true)
+    {
+        <div class="table-card">
+            <h6 class="table-heading">Your Parking Permit</h6>
+            <table class="table table-sm rana-form-table staff-table">
+                <thead>
+                    <tr>
+                        <th>Plate Number</th>
+                        <th>Expiry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.UserVehicle.Any())
+                    {
+                        @foreach (var item in Model.UserVehicle)
+                        {
+                            <tr>
+                                <td>@item.PlateNumber</td>
+                                <td>@item.ExpiryDate.ToString("MM/dd/yyyy")</td>
+                                @if (item.ExpiryDate.Date >= DateTime.Today)
+                                {
+                                    bool permitFound = false;
+                                    foreach (var permit in Model.PermitView)
+                                    {
+                                        if (item.PlateNumber == permit.regPlateNum && permit.IsGet == true)
+                                        {
+                                            permitFound = true;
+                                            break; 
+                                        }
+                                    }
+                                    if (!permitFound)
+                                    {
+                                        <td>
+                                            <input type="checkbox" class="checkbox-select" value="@item.PlateNumber" style="width: 20px; height: 20px;" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>You have already purchased the permit</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td>Expire</td>
+                                }
+                            </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><h5 class="text-center">Record not found</h5></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-5" style="display: flex; justify-content: center;">
+            @if (Model.UserVehicle.Any())
+            {
+                <button class="tbl-btn" id="purchasePermitBtn">Purchase Permit</button>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="mt-5" style="display: flex; justify-content: center;">
+            <p>You were not able to purchase the permit. Your license is not valid for permits.</p>
+        </div>
+    }
+    <form id="purchasePermitForm" asp-action="PermitPayment" asp-controller="StudentDashboard" ></form>
+
+</div>
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var purchasePermitBtn = document.getElementById("purchasePermitBtn");
+            purchasePermitBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                var selectedIds = [];
+                var checkboxes = document.querySelectorAll('.checkbox-select:checked');
+                checkboxes.forEach(function (checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+
+                if (selectedIds.length > 0) {
+                    var form = document.getElementById("purchasePermitForm");
+                    selectedIds.forEach(function (id) {
+                        var input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = "selectedIds[]";
+                        input.value = id;
+                        form.appendChild(input);
+                    });
+
+                    form.submit(); 
+                } else {
+                    alert("Please select at least one vehicle to purchase a permit.");
+                }
+            });
+        });
+
+    </script>
+}

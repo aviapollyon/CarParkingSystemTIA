@@ -1,0 +1,114 @@
+﻿@model CarParkingSystem.ViewModel.AppealViewModel
+
+@{
+    ViewData["Title"] = "Severe Appeal";
+}
+
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Appeals Information</h4>
+</div>
+<div class="admin-other-form">
+    <dl class="row">
+        <dt class="col-sm-4">
+            Offense:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.OffenseSelect)
+        </dd>
+        <dt class="col-sm-4">
+            Parties Involved:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.PartiesInvolved)
+        </dd>
+        <dt class="col-sm-4">
+            Additional Information:
+        </dt>
+
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.AdditionInformation)
+        </dd>
+
+        <dt class="col-sm-4">
+            Reason For Appeal:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.Reason)
+        </dd>
+        <dt class="col-sm-4">
+            Appeal Message:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.AppealMessage)
+        </dd>
+        <dt class="col-sm-4">
+            Amount to be Paid:
+        </dt>
+        @if (Model.StudentAppeal.ServerityFee > 0)
+        {
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.StudentAppeal.ServerityFee)
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-8">
+                <p class="rana-form-label">Inapplicable</p>
+            </dd>
+        }
+
+    </dl>
+    <hr class="mt-5" />
+
+    <dl class="row">
+        <dt class="col-sm-4">
+            Photo Attachments
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var item in Model.ViolationImages)
+            {
+                <img src="~/ViolationImage/@item.ViolationImage" style="height:200px; width:200px; margin-right: 10px; margin-bottom: 10px;" />
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="SeverePayment" method="post">
+        <input type="hidden" name="ViolationId" value="@Model.StudentAppeal.Id" />
+
+        <div class="row">
+            <div class="col-md-4">
+                <label class="rana-form-label">Select Action:</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Action" id="setPaymentDue" value="SetPaymentDue" checked>
+                    <label class="form-check-label" for="setPaymentDue">
+                        Set Payment Due
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Action" id="directAppeal" value="DirectAppeal">
+                    <label class="form-check-label" for="directAppeal">
+                        Direct Appeal
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label class="rana-form-label">Set Payment Due:</label>
+            </div>
+            <div class="col-md-8">
+                <input type="number" name="SevereFee" class="rana-form-input" placeholder="Enter Payment Due" required />
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-around;" class="mt-5">
+            <a style="text-decoration: none;" asp-action="StudentAppeal" class="tbl-btn">Go Back</a>
+            <a style="text-decoration: none;" asp-action="DenyAppeal" asp-route-id="@Model.StudentAppeal.Id" class="tbl-btn">Deny</a>
+            <button type="submit" class="tbl-btn">Approve</button>
+        </div>
+    </form>
+
+
+</div>

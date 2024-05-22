@@ -1,0 +1,85 @@
+﻿@model CarParkingSystem.ViewModel.EventHistoryViewModel
+@{
+    ViewData["Title"] = "Booked Event";
+}
+
+<style>
+    .admin-other-forms {
+        margin-left: 100px;
+    }
+</style>
+<div id="Section">
+    <div style="margin-top:30px">
+        <h4 class="text-center">Booking </h4>
+    </div>
+    <div class="admin-other-forms mt-5">
+        <dl class="row">
+            <dt class="col-sm-7">
+                <h3>Event Name:</h3>
+            </dt>
+            <dd class="col-sm-5">
+                <h3> @Html.DisplayFor(model => model.EventName)</h3>
+
+            </dd>
+            <dt class="col-sm-7">
+                First Name of host:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-7">
+                Last Name of host:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-7">
+                Email of host:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-7">
+                Phone of Host:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+            <dt class="col-sm-7">
+                Event Start Date:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.FromDate)
+            </dd>
+            <dt class="col-sm-7">
+                Event End Date:
+            </dt>
+            <dd class="col-sm-5">
+                @Html.DisplayFor(model => model.ToDate)
+            </dd>
+            <dt class="col-sm-7">
+                <h3>Using Parking section:</h3>
+            </dt>
+            <dd class="col-sm-5">
+                <h3>@Html.DisplayFor(model => model.ParkingSection)</h3>
+
+            </dd>
+        </dl>
+
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <button  id="printButton" class="rana-form-btn">Download Event Permit</button>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function printSectionAsPDF() {
+            const element = document.getElementById("Section");
+            html2pdf().from(element).save("Event Permit.pdf");
+        }
+        document.getElementById("printButton").addEventListener("click", printSectionAsPDF);
+    </script>
+}

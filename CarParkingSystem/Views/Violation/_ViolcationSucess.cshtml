@@ -1,0 +1,39 @@
+﻿@model CarParkingSystem.ViewModel.UserViewModel
+<div>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>First Name:</span>
+            <span>@Model.FirstName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Last Name:</span>
+            <span>@Model.LastName</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Role:</span>
+            <span>@Model.UserRole</span>
+        </p>
+       
+    </div>
+    <div class="driver-info">
+        <p class="driver-info-p">
+            <span>Modal:</span>
+            <span>@Model.Model</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Make:</span>
+            <span>@Model.Make</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Color:</span>
+            <span>@Model.Color</span>
+        </p>
+        <p class="driver-info-p">
+            <span>Permit ID:</span>
+            <span>@Model.PermitId</span>
+        </p>
+    </div>
+    <div class="text-center">
+        <a asp-action="CreateViolation"  asp-route-OrgNumber="@Model.orgNum" asp-route-RegNumber="@Model.RegisterPlate" class="tbl-btn" style="text-decoration:none">Issue Violation</a>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model CarParkingSystem.DTO.GuardScheduleLeaveDTO
+@{
+    ViewData["Title"] = "Guard Schedule Leave";
+}
+<style>
+    .centerform{
+        justify-content:center;
+        display:flex;
+    }
+</style>
+<div class="mb-4 mt-5 text-center">
+    <p class="rana-form-p">You get Only two hours leave</p>
+</div>
+<div class="centerform">
+    
+    <form asp-action="GuardScheduleLeave" method="post">
+        <input type="hidden" asp-for="OrgNumber" value="@ViewBag.OrgNumber" />
+        <div class="mb-3">
+            <label class="rana-form-label">From:</label><br>
+            <input type="time" class="rana-form-input" asp-for="LeaveFrom" required style="width: 500px;">
+        </div>
+        <div class="mb-3" >
+            <label class="rana-form-label">To:</label><br>
+            <input type="time" class="rana-form-input" style="width: 500px;" asp-for="LeaveTo" required>
+        </div>
+        <div class="text-center mt-5">
+            <button type="submit" class="tbl-btn px-5">Confirm</button>
+        </div>
+    </form>
+
+</div>
+

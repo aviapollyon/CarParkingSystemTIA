@@ -1,0 +1,73 @@
+﻿@model CarParkingSystem.ViewModel.AppealViewModel
+@{
+    ViewData["Title"] = "Appeals Details";
+}
+
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Appeals Information</h4>
+</div>
+<div class="admin-other-form">
+    <dl class="row">
+        <dt class="col-sm-4">
+            Offense:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.OffenseSelect)
+        </dd>
+        <dt class="col-sm-4">
+            Parties Involved:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.PartiesInvolved)
+        </dd>
+        <dt class="col-sm-4">
+            Additional Information:
+        </dt>
+      
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.StudentAppeal.AdditionInformation)
+            </dd>
+        
+        <dt class="col-sm-4">
+            Reason For Appeal:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.Reason)
+        </dd>
+        <dt class="col-sm-4">
+            Appeal Message:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.StudentAppeal.AppealMessage)
+        </dd>    
+
+    </dl>
+    <hr class="mt-5" />
+
+    <dl class="row">
+        <dt class="col-sm-4">
+            Photo Attachments
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var item in Model.ViolationImages)
+            {
+                <img src="~/ViolationImage/@item.ViolationImage" style="height:200px; width:200px; margin-right: 10px; margin-bottom: 10px;" />
+            }
+        </dd>
+    </dl>
+
+    <div style="display: flex; justify-content: space-around;" class="mt-5">
+        <a style="text-decoration: none;" asp-action="StudentAppeal" class="tbl-btn">Go Back</a>
+
+        
+            <a style="text-decoration: none;" class="tbl-btn" asp-action="DenyAppeal" asp-route-id="@Model.StudentAppeal.Id">Deny</a>
+
+        
+                <a style="text-decoration: none;" class="tbl-btn" asp-action="ApproveAppeal" asp-route-id="@Model.StudentAppeal.Id">Approve</a>
+
+
+    </div>
+
+
+</div>

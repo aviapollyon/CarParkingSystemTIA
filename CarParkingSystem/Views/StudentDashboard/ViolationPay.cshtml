@@ -1,0 +1,106 @@
+﻿@model CarParkingSystem.Models.StudentViolation
+@{
+    ViewData["Title"] = "Violation Pay";
+}
+
+<div style="margin-top:20px">
+    <h4 class="text-center">Violation Information</h4>
+</div>
+<div class="admin-other-form">
+    <div style="margin-left:100px">
+        <dl class="row">
+            <dt class="col-sm-4">
+                Number:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                Serverity:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Severity)
+            </dd>
+            <dt class="col-sm-4">
+                Amount to be Paid:
+            </dt>
+            <dd class="col-sm-8">
+                ZAR @Model.ServerityFee
+            </dd>
+            <dt class="col-sm-4">
+                Issued Date:
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IssueDate)
+            </dd>
+
+        </dl>
+    </div>
+        <form asp-action="ViolationPay" method="post" id="ViolationForm">
+            <input  type="hidden" name="ViolationId" value="@Model.Id"/>
+            <input  type="hidden" name="TotalAmount" value="@Model.ServerityFee"/>
+            <div class="Guard-form">
+                <div class="mb-3">
+                    <label class="rana-form-label">Card Number:</label>
+                    <input type="text" id="cardNumber" name="CardNumber" class="rana-form-input" placeholder="Card Number">
+                </div>
+
+                <div class="mb-3">
+                    <label class="rana-form-label">CVV</label>
+                    <input type="number" id="cvv" class="rana-form-input" name="CardCVV" placeholder="CVV">
+                </div>
+                <div class="mb-3">
+                    <label class="rana-form-label">Expiry Date:</label>
+                    <input type="date" id="expiryDate" class="rana-form-input" name="DateTime" placeholder="Expiry Date" >
+                </div>
+
+                <div class="text-center mb-5">
+                    <a class="rana-form-a">Email Invoice?</a>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-around;" class="mt-5">
+                <a style="text-decoration: none;" asp-action="StudentViolation" class="tbl-btn">Go Back</a>
+                <button type="submit" class="tbl-btn">Confirm and Pay</button>
+            </div>
+        </form>
+    
+
+
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#ViolationForm').submit(function (e) {
+                e.preventDefault();
+                var cardNumber = $('#cardNumber').val();
+                var cvv = $('#cvv').val();
+                var expiryDate = $('#expiryDate').val();
+
+                if (cardNumber.length < 14) {
+                    alert('Please enter a valid card number with 14 or more digits.');
+                    return;
+                }
+
+                if (cvv.length !== 3) {
+                    alert('Please enter a valid 3-digit CVV number.');
+                    return;
+                }
+                if (!expiryDate) {
+                    alert('Please enter the expiry date.');
+                    return;
+                }
+                var currentDate = new Date();
+                var selectedDate = new Date(expiryDate);
+
+                if (selectedDate <= currentDate) {
+                    alert('Your card has expired');
+                    return;
+                }
+                this.submit();
+            });
+        });
+
+    </script>
+}
+

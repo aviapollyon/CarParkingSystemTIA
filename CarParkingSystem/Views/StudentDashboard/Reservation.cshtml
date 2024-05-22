@@ -1,0 +1,75 @@
+﻿@model CarParkingSystem.ViewModel.ReservationPermitViewModel
+@{
+    ViewData["Title"] = "Reservation";
+}
+
+<div class="admin-other-form">
+    <div class="mb-5 text-center">
+        @if (Model.Permits.Any())
+        {
+         
+            <a class="tbl-btn" asp-action="ActiveCarPermit" style="text-decoration:none">Reservation</a>
+        }
+        else
+            {
+                <p>Please Purchase Permit</p>
+            }
+        </div>
+    @if (Model.Permits.Any())
+    {
+        <div class="table-card">
+            <h6 class="table-heading">Active Reservation</h6>
+            <table class="table table-sm rana-form-table staff-table">
+                <thead>
+                    <tr>
+                        <th>BayId</th>
+                        <th>Section</th>
+                        <th>Bay</th>
+                        <th>Expiry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Reservations.Any())
+                    {
+                        @foreach (var item in Model.Reservations)
+                        {
+                            <tr>
+                                <td>@item.BayId</td>
+                                <td>@item.Section</td>
+                                <td>@item.Bay</td>
+                                <td>
+                                    @if (item.ExpiryDate.Date <= DateTime.Today.Date)
+                                    {
+                                        <p>Expire</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.ExpiryDate.ToString("MM/dd/yyyy")</p>
+                                    }
+                                </td>
+
+
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                       
+                        <tr>
+                            <td colspan="4"><h5 class="text-center">You do not have an active Parking Reservation</h5></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="mb-5 text-center">
+            <p> You do not have an active Parking Permit  </p>         
+        </div>
+    }
+
+</div>

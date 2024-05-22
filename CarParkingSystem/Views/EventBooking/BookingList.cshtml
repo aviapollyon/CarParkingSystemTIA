@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CarParkingSystem.Models.StudentEvent>
+@{
+    ViewData["Title"] = "Booking List";
+}
+<style>
+    .admin-other-forms {
+        margin: 50px 0 0 0;
+    }
+</style>
+<div class="admin-other-forms">
+   <div class="text-center">
+       <h3>Your Pending Event</h3>
+   </div>
+    <div class="table-card">
+        <h6 class="table-heading">Event</h6>
+        <table class="table table-sm rana-form-table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model.Where(x=>x.isDelete == false))
+                    {
+                        <tr>
+                            <td>@item.EventName</td>
+                            <td>ZAR @item.AmountPaid</td>
+                            <td>
+                                @if (item.EventStatus == "Confirmed")
+                                {
+                                    <a style="text-decoration:none" class="tbl-btn" asp-action="RequestBookedPaymet" asp-route-id="@item.Id">Pay</a>
+
+                                }
+                                <a style="text-decoration:none" class="tbl-btn" href="javascript:void(0)" onclick="confirmDelete('@item.Id')">Cancel</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3"><h5 class="text-center">Record not found</h5></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+}
+
